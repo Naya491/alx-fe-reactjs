@@ -1,38 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import useRecipeStore from './recipeStore';
 
 const RecipeList = () => {
+  const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
+  const searchTerm = useRecipeStore((state) => state.searchTerm);
   const recipes = useRecipeStore((state) => state.recipes);
-  const deleteRecipe = useRecipeStore((state) => state.deleteRecipe);
+
+  // If no search term, fall back to all recipes
+  const recipesToShow = searchTerm ? filteredRecipes : recipes;
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Recipe List</h2>
-      {recipes.length === 0 ? (
-        <p>No recipes yet. Add one!</p>
+    <div>
+      {recipesToShow.length === 0 ? (
+        <p style={{ textAlign: 'center', marginTop: '20px' }}>No recipes found.</p>
       ) : (
-        recipes.map((recipe) => (
+        recipesToShow.map((recipe) => (
           <div
             key={recipe.id}
             style={{
               border: '1px solid #ccc',
               padding: '10px',
               margin: '10px 0',
-              borderRadius: '6px',
+              borderRadius: '8px',
             }}
           >
             <h3>{recipe.title}</h3>
             <p>{recipe.description}</p>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <Link to={`/recipes/${recipe.id}`}>View</Link>
-              <button
-                onClick={() => deleteRecipe(recipe.id)}
-                style={{ background: '#ff6b6b', color: 'white', border: 'none', padding: '6px 8px', cursor: 'pointer' }}
-              >
-                Delete
-              </button>
-            </div>
           </div>
         ))
       )}

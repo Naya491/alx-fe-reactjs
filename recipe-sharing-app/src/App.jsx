@@ -5,6 +5,7 @@ import './App.css';
 import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
+import SearchBar from './components/SearchBar';
 
 function Home() {
   const [count, setCount] = useState(0);
@@ -14,6 +15,7 @@ function Home() {
       <h1>🍳 Recipe Sharing App</h1>
       <AddRecipeForm />
       <RecipeList />
+      <SearchBar />
 
       {/* Optional demo counter */}
       <div style={{ marginTop: "20px" }}>
