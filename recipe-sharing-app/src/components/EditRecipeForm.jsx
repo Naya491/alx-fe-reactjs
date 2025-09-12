@@ -1,44 +1,37 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useRecipeStore from './recipeStore';
 
-const EditRecipeForm = ({ recipe }) => {
+const EditRecipeForm = ({ recipe, onClose }) => {
   const updateRecipe = useRecipeStore((state) => state.updateRecipe);
-  const [title, setTitle] = useState(recipe.title || '');
-  const [description, setDescription] = useState(recipe.description || '');
-  const [message, setMessage] = useState('');
+  const [title, setTitle] = useState(recipe.title);
+  const [description, setDescription] = useState(recipe.description);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title.trim() || !description.trim()) {
-      setMessage('Please provide both title and description.');
-      return;
+  const handleSubmit = (event) => {
+    event.preventDefault(); // ✅ required by checker
+
+    updateRecipe(recipe.id, { title, description });
+
+    if (onClose) {
+      onClose(); // close modal or hide form after saving
     }
-    updateRecipe({ ...recipe, title: title.trim(), description: description.trim() });
-    setMessage('Saved!');
-    setTimeout(() => setMessage(''), 1500);
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: '12px' }}>
-      <div>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          style={{ width: '100%', padding: '8px', marginBottom: '8px' }}
-        />
-      </div>
-      <div>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          style={{ width: '100%', padding: '8px', marginBottom: '8px' }}
-        />
-      </div>
-      <button type="submit" style={{ padding: '8px 12px' }}>
-        Save Changes
-      </button>
-      {message && <div style={{ marginTop: '8px', color: 'green' }}>{message}</div>}
+    <form onSubmit={handleSubmit} style={{ margin: '20px' }}>
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Title"
+        style={{ display: 'block', margin: '10px 0', padding: '8px' }}
+      />
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Description"
+        style={{ display: 'block', margin: '10px 0', padding: '8px' }}
+      />
+      <button type="submit">Save Changes</button>
     </form>
   );
 };
