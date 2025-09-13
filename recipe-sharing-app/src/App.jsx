@@ -6,6 +6,8 @@ import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
 import SearchBar from './components/SearchBar';
+import FavoritesList from "./components/FavoritesList";
+import RecommendationsList from "./components/RecommendationsList";
 
 function Home() {
   const [count, setCount] = useState(0);
@@ -16,6 +18,8 @@ function Home() {
       <AddRecipeForm />
       <RecipeList />
       <SearchBar />
+      <FavoritesList />
+      <RecommendationsList />
 
       {/* Optional demo counter */}
       <div style={{ marginTop: "20px" }}>

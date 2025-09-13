@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import useRecipeStore from "../store/recipeStore";
+import useRecipeStore from "./recipeStore";
 
 const RecipeList = () => {
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
   const searchTerm = useRecipeStore((state) => state.searchTerm);
   const recipes = useRecipeStore((state) => state.recipes);
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
 
-  // If no search term, fall back to all recipes
   const recipesToShow = searchTerm ? filteredRecipes : recipes;
 
   return (
@@ -26,16 +26,15 @@ const RecipeList = () => {
               borderRadius: "8px",
             }}
           >
-            {/* Wrap recipe title with Link */}
-            <h3>
-              <Link
-                to={`/recipes/${recipe.id}`}
-                style={{ textDecoration: "none", color: "blue" }}
-              >
-                {recipe.title}
-              </Link>
-            </h3>
+            <h3>{recipe.title}</h3>
             <p>{recipe.description}</p>
+            <Link to={`/recipes/${recipe.id}`}>👀 View Details</Link>
+            <button
+              style={{ marginLeft: "10px" }}
+              onClick={() => addFavorite(recipe.id)}
+            >
+              ⭐ Favorite
+            </button>
           </div>
         ))
       )}
